@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'">
+  <title>Lite Browser</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="toolbar.js" defer></script>
+</head>
+<body>
+  <div class="bar" role="toolbar" aria-label="Browser navigation">
+    <button id="back" type="button" title="Back" aria-label="Back">←</button>
+    <button id="forward" type="button" title="Forward" aria-label="Forward">→</button>
+    <button id="reload" type="button" title="Reload" aria-label="Reload">⟳</button>
+    <button id="home" type="button" title="Home" aria-label="Home">⌂</button>
+    <input id="addr" type="text" placeholder="Search or enter URL" aria-label="Search or enter URL" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
+  </div>
+</body>
+</html>

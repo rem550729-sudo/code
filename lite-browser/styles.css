@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  background: #1b1b1b;
+  font-family: system-ui, sans-serif;
+}
+
+.bar {
+  display: flex;
+  box-sizing: border-box;
+  gap: 6px;
+  padding: 7px;
+  height: 44px;
+}
+
+button {
+  flex: 0 0 32px;
+  background: #2c2c2c;
+  color: #ddd;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+button:hover {
+  background: #3a3a3a;
+}
+
+button:focus-visible {
+  outline: 2px solid #4a7dff;
+  outline-offset: 1px;
+}
+
+input {
+  flex: 1;
+  min-width: 0;
+  background: #2c2c2c;
+  color: #eee;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 0 10px;
+  outline: none;
+  font: inherit;
+}
+
+input:focus {
+  border-color: #4a7dff;
+}
