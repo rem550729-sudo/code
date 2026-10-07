@@ -26,6 +26,18 @@ Press **Enter** to navigate. Links that request a new window open in the same vi
   integration. Browser navigation is restricted to HTTP and HTTPS.
 - The app has no telemetry, analytics, or history logging.
 
+## Window content protection
+
+On Windows and macOS, the browser automatically enables Electron's
+[`setContentProtection(true)`](https://www.electronjs.org/docs/latest/api/base-window#winsetcontentprotectionenable)
+for the entire window, including the toolbar and page.
+
+- **Windows:** Uses `WDA_EXCLUDEFROMCAPTURE`. Compatible capture applications omit
+  the window on Windows 10 version 2004 and newer; older versions show it as black.
+- **macOS:** Uses `NSWindowSharingNone`. Applications using ScreenCaptureKit can
+  still capture the window, so protection depends on the capture method.
+- **Linux:** Electron does not support this protection; the API call is skipped.
+
 ## Check JavaScript syntax
 
 ```bash

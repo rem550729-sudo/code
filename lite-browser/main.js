@@ -42,6 +42,10 @@ app.whenReady().then(() => {
     backgroundColor: '#111'
   });
 
+  if (process.platform === 'win32' || process.platform === 'darwin') {
+    win.setContentProtection(true);
+  }
+
   ui = new WebContentsView({
     webPreferences: {
       partition: 'lite-ui',
