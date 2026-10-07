@@ -1,9 +1,22 @@
-const { app, BaseWindow, WebContentsView, dialog, ipcMain, session } = require('electron');
+const {
+  app,
+  BaseWindow,
+  WebContentsView,
+  clipboard,
+  ClipboardItem,
+  desktopCapturer,
+  dialog,
+  globalShortcut,
+  ipcMain,
+  screen,
+  session
+} = require('electron');
 const { once } = require('node:events');
 const path = require('path');
 
 const TOOLBAR_HEIGHT = 44;
 const HOME = 'https://duckduckgo.com';
+const SCREENSHOT_SHORTCUT = 'CommandOrControl+Shift+S';
 let win, ui, page;
 
 // Turn typed text into a URL or a search.
@@ -26,7 +39,38 @@ function loadPage(url) {
   });
 }
 
+async function captureToClipboard() {
+  try {
+    const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint());
+    const sources = await desktopCapturer.getSources({
+      types: ['screen'],
+      thumbnailSize: {
+        width: Math.round(display.size.width * display.scaleFactor),
+        height: Math.round(display.size.height * display.scaleFactor)
+      }
+    });
+    const source = sources.find((item) => item.display_id === String(display.id)) ||
+      (sources.length === 1 ? sources[0] : null);
+
+    if (!source || source.thumbnail.isEmpty()) {
+      console.error('No screenshot available for the selected display.');
+      return;
+    }
+
+    await clipboard.write([new ClipboardItem({
+      'image/png': new Blob([source.thumbnail.toPNG()], { type: 'image/png' })
+    })]);
+    console.log('Screenshot copied to clipboard.');
+  } catch (error) {
+    console.error('Screenshot capture failed:', error.message);
+  }
+}
+
 app.whenReady().then(() => {
+  if (!globalShortcut.register(SCREENSHOT_SHORTCUT, captureToClipboard)) {
+    console.error('Unable to register screenshot shortcut:', SCREENSHOT_SHORTCUT);
+  }
+
   // No "persist:" prefix: browsing data lives only in memory.
   const priv = session.fromPartition('lite-private');
   const microphoneOrigins = new Set();
@@ -175,4 +219,8 @@ app.on('window-all-closed', async () => {
     .filter((view) => !view.webContents.isDestroyed())
     .map((view) => once(view.webContents, 'destroyed')));
   app.quit();
+});
+
+app.on('will-quit', () => {
+  globalShortcut.unregister(SCREENSHOT_SHORTCUT);
 });

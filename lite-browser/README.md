@@ -16,6 +16,27 @@ npm start
 Type a URL or domain such as `example.com`, or enter words to search DuckDuckGo.
 Press **Enter** to navigate. Links that request a new window open in the same view.
 
+## Screenshot to clipboard
+
+While the app is running, press **Ctrl + Shift + S** on Windows/Linux or
+**Cmd + Shift + S** on macOS. The global shortcut works even when another app has
+focus. It captures the display under the mouse pointer and copies the image
+directly to the OS clipboard. Use **Ctrl + V** or **Cmd + V** in an application
+that accepts pasted images.
+
+Capture selects the source by display ID and requests a thumbnail size adjusted
+for the display's scale factor, including high-DPI displays. The image is written
+as an in-memory PNG using Electron 44's asynchronous clipboard API.
+
+- **macOS:** Allow Screen Recording access for the app in System Settings →
+  Privacy & Security. During `npm start`, the app is normally listed as Electron.
+- **Linux Wayland:** The desktop portal controls screen selection and global
+  shortcut availability. Mouse-position display selection is not supported by
+  Electron on Wayland; the system may ask you to select a screen.
+
+If another application owns the shortcut, the browser reports registration
+failure in the terminal. The shortcut is released when the app exits.
+
 ## Session and security
 
 - Cookies, site storage, browsing history, and cache use an in-memory session and
