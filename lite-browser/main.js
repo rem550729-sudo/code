@@ -17,6 +17,7 @@ const path = require('path');
 const TOOLBAR_HEIGHT = 44;
 const HOME = 'https://duckduckgo.com';
 const SCREENSHOT_SHORTCUT = 'CommandOrControl+Shift+S';
+const VISIBILITY_SHORTCUT = 'CommandOrControl+Shift+V';
 let win, ui, page;
 
 // Turn typed text into a URL or a search.
@@ -37,6 +38,16 @@ function loadPage(url) {
   page.webContents.loadURL(url).catch((error) => {
     if (error.code !== 'ERR_ABORTED') console.error('Unable to load page:', error.message);
   });
+}
+
+function toggleBrowserVisibility() {
+  if (!win || win.isDestroyed()) return;
+
+  if (win.isVisible()) {
+    win.hide();
+  } else {
+    win.show();
+  }
 }
 
 async function captureToClipboard() {
@@ -79,6 +90,9 @@ app.whenReady().then(() => {
   console.log('Screenshot shortcut registered:', screenshotShortcutRegistered);
   if (!screenshotShortcutRegistered) {
     console.error('Unable to register screenshot shortcut:', SCREENSHOT_SHORTCUT);
+  }
+  if (!globalShortcut.register(VISIBILITY_SHORTCUT, toggleBrowserVisibility)) {
+    console.error('Unable to register visibility shortcut:', VISIBILITY_SHORTCUT);
   }
 
   // No "persist:" prefix: browsing data lives only in memory.
@@ -254,4 +268,5 @@ app.on('window-all-closed', async () => {
 
 app.on('will-quit', () => {
   globalShortcut.unregister(SCREENSHOT_SHORTCUT);
+  globalShortcut.unregister(VISIBILITY_SHORTCUT);
 });

@@ -16,6 +16,16 @@ npm start
 Type a URL or domain such as `example.com`, or enter words to search DuckDuckGo.
 Press **Enter** to navigate. Links that request a new window open in the same view.
 
+## Show or hide the browser
+
+Press **Ctrl + Shift + V** on Windows/Linux or **Cmd + Shift + V** on macOS to
+hide the entire browser window. Press the same shortcut again to show it. This
+global shortcut works while another application has focus.
+
+The current page stays loaded while hidden, and the screenshot shortcut remains
+available. Showing the window reapplies its always-on-top level. Registration
+failure is reported in the terminal, and the shortcut is released on exit.
+
 ## Screenshot to clipboard
 
 While the app is running, press **Ctrl + Shift + S** on Windows/Linux or
