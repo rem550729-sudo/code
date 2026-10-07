@@ -6,6 +6,7 @@ contextBridge.exposeInMainWorld('browser', {
   forward: () => ipcRenderer.send('forward'),
   reload: () => ipcRenderer.send('reload'),
   home: () => ipcRenderer.send('home'),
+  screenshot: () => ipcRenderer.send('screenshot'),
   close: () => ipcRenderer.send('close'),
   onUrl: (callback) => {
     ipcRenderer.on('url', (_event, url) => callback(url));

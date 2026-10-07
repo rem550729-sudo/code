@@ -28,6 +28,9 @@ failure is reported in the terminal, and the shortcut is released on exit.
 
 ## Screenshot to clipboard
 
+Click **SS** in the toolbar to capture the screen and copy the image to the
+clipboard. The button uses the same capture function as the keyboard shortcut.
+
 While the app is running, press **Ctrl + Shift + S** on Windows/Linux or
 **Cmd + Shift + S** on macOS. The global shortcut works even when another app has
 focus. It copies a screenshot directly to the OS clipboard. Use **Ctrl + V** or

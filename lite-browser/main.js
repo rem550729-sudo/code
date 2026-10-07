@@ -245,6 +245,7 @@ app.whenReady().then(() => {
   onToolbar('forward', () => nav.canGoForward() && nav.goForward());
   onToolbar('reload', () => page.webContents.reload());
   onToolbar('home', () => loadPage(HOME));
+  onToolbar('screenshot', captureToClipboard);
   onToolbar('close', () => win.close());
 
   ui.webContents.loadFile(path.join(__dirname, 'index.html'));
