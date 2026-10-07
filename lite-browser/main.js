@@ -49,11 +49,16 @@ async function captureToClipboard() {
         height: Math.round(display.size.height * display.scaleFactor)
       }
     });
-    const source = sources.find((item) => item.display_id === String(display.id)) ||
-      (sources.length === 1 ? sources[0] : null);
+    if (!sources.length) {
+      console.error('No screen sources found.');
+      return;
+    }
 
-    if (!source || source.thumbnail.isEmpty()) {
-      console.error('No screenshot available for the selected display.');
+    const source = sources.find((item) => item.display_id &&
+      String(item.display_id) === String(display.id)) || sources[0];
+
+    if (!source.thumbnail || source.thumbnail.isEmpty()) {
+      console.error('Screenshot thumbnail is empty.');
       return;
     }
 
@@ -62,12 +67,17 @@ async function captureToClipboard() {
     })]);
     console.log('Screenshot copied to clipboard.');
   } catch (error) {
-    console.error('Screenshot capture failed:', error.message);
+    console.error('Screenshot capture failed:', error);
   }
 }
 
 app.whenReady().then(() => {
-  if (!globalShortcut.register(SCREENSHOT_SHORTCUT, captureToClipboard)) {
+  const screenshotShortcutRegistered = globalShortcut.register(SCREENSHOT_SHORTCUT, async () => {
+    console.log('Screenshot shortcut pressed.');
+    await captureToClipboard();
+  });
+  console.log('Screenshot shortcut registered:', screenshotShortcutRegistered);
+  if (!screenshotShortcutRegistered) {
     console.error('Unable to register screenshot shortcut:', SCREENSHOT_SHORTCUT);
   }
 
@@ -115,7 +125,7 @@ app.whenReady().then(() => {
     minWidth: 320,
     minHeight: 100,
     frame: false,
-    resizable: false,
+    resizable: true,
     skipTaskbar: true,
     autoHideMenuBar: true,
     transparent: true,

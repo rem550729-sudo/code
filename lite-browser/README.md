@@ -20,13 +20,17 @@ Press **Enter** to navigate. Links that request a new window open in the same vi
 
 While the app is running, press **Ctrl + Shift + S** on Windows/Linux or
 **Cmd + Shift + S** on macOS. The global shortcut works even when another app has
-focus. It captures the display under the mouse pointer and copies the image
-directly to the OS clipboard. Use **Ctrl + V** or **Cmd + V** in an application
-that accepts pasted images.
+focus. It copies a screenshot directly to the OS clipboard. Use **Ctrl + V** or
+**Cmd + V** in an application that accepts pasted images.
 
-Capture selects the source by display ID and requests a thumbnail size adjusted
-for the display's scale factor, including high-DPI displays. The image is written
-as an in-memory PNG using Electron 44's asynchronous clipboard API.
+Capture first selects the display under the mouse pointer by display ID. If no
+ID matches, it captures the first available screen, which can be another monitor.
+It requests a thumbnail size adjusted for the target display's scale factor,
+including high-DPI displays. The image is written as an in-memory PNG using
+Electron 44's asynchronous clipboard API.
+
+Desktop captures can omit Lite Browser's protected window on Windows/macOS,
+depending on the capture method.
 
 - **macOS:** Allow Screen Recording access for the app in System Settings →
   Privacy & Security. During `npm start`, the app is normally listed as Electron.
@@ -34,8 +38,9 @@ as an in-memory PNG using Electron 44's asynchronous clipboard API.
   shortcut availability. Mouse-position display selection is not supported by
   Electron on Wayland; the system may ask you to select a screen.
 
-If another application owns the shortcut, the browser reports registration
-failure in the terminal. The shortcut is released when the app exits.
+The terminal logs `Screenshot shortcut registered: true` or `false` at startup,
+and `Screenshot shortcut pressed.` on activation. If another application owns
+the shortcut, registration fails. The shortcut is released when the app exits.
 
 ## Session and security
 
@@ -66,8 +71,8 @@ The operating system must also allow microphone access:
 
 ## Window size and cursor
 
-The browser opens at 1100 × 750 pixels with native edge resizing disabled using
-Electron's `resizable: false` option.
+The browser opens at 1100 × 750 pixels with native resizing enabled using
+Electron's `resizable: true` option. The minimum window size is 320 × 100 pixels.
 
 The toolbar, navigation buttons, and address field use the standard arrow cursor
 through scoped CSS. Button hover and keyboard focus styles identify interactive
