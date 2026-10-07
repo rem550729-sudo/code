@@ -38,6 +38,8 @@ app.whenReady().then(() => {
     height: 750,
     minWidth: 320,
     minHeight: 100,
+    resizable: false,
+    skipTaskbar: true,
     autoHideMenuBar: true,
     backgroundColor: '#111'
   });

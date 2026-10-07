@@ -4,6 +4,12 @@ body {
   font-family: system-ui, sans-serif;
 }
 
+body,
+.bar,
+.bar * {
+  cursor: default;
+}
+
 .bar {
   display: flex;
   box-sizing: border-box;
@@ -18,7 +24,6 @@ button {
   color: #ddd;
   border: 0;
   border-radius: 6px;
-  cursor: pointer;
   font-size: 18px;
 }
 

@@ -26,6 +26,24 @@ Press **Enter** to navigate. Links that request a new window open in the same vi
   integration. Browser navigation is restricted to HTTP and HTTPS.
 - The app has no telemetry, analytics, or history logging.
 
+## Window size and cursor
+
+The browser opens at 1100 × 750 pixels with native edge resizing disabled using
+Electron's `resizable: false` option.
+
+The toolbar, navigation buttons, and address field use the standard arrow cursor
+through scoped CSS. Button hover and keyboard focus styles identify interactive
+controls.
+
+## Taskbar behavior
+
+The browser window uses Electron's `skipTaskbar: true` option to request omission
+from the taskbar while remaining visible and usable.
+
+Electron documents this option for Windows and macOS. Linux behavior depends on
+the desktop environment and window manager. On macOS, the application's Dock icon
+is controlled separately from this window-level option.
+
 ## Window content protection
 
 On Windows and macOS, the browser automatically enables Electron's
