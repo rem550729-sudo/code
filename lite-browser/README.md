@@ -77,6 +77,22 @@ On each page load, a user-origin stylesheet sets `cursor: default` for `input`,
 `textarea`, and `[contenteditable="true"]`. The rule uses `!important` to take
 priority over website cursor styles. Text fields keep their visible typing caret.
 
+## Window appearance and stacking
+
+The browser uses a transparent, frameless window with a translucent dark toolbar
+and `backdrop-filter: blur(18px)`. The toolbar's native view background is also
+transparent. Drag the toolbar's background or gaps to move the window, and use
+the **×** button to close it.
+
+Always-on-top is enabled when the window is created and reapplied when it is
+shown or restored. This uses the macOS floating window level and the default
+topmost level on other platforms. Workspace visibility is enabled on macOS and
+Linux where supported; macOS also requests visibility in fullscreen Spaces.
+
+Window stacking and transparency depend on the operating system and compositor.
+Fullscreen and system windows can use higher window levels. Electron's
+always-on-top API is not supported on Linux Wayland.
+
 ## Taskbar behavior
 
 The browser window uses Electron's `skipTaskbar: true` option to request omission

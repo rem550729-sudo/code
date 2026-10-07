@@ -114,11 +114,30 @@ app.whenReady().then(() => {
     height: 750,
     minWidth: 320,
     minHeight: 100,
+    frame: false,
     resizable: false,
     skipTaskbar: true,
     autoHideMenuBar: true,
-    backgroundColor: '#111'
+    transparent: true,
+    backgroundColor: '#00000000'
   });
+
+  const keepOnTop = () => {
+    if (process.platform === 'darwin') {
+      win.setAlwaysOnTop(true, 'floating', 1);
+    } else {
+      win.setAlwaysOnTop(true);
+    }
+  };
+  keepOnTop();
+  win.on('show', keepOnTop);
+  win.on('restore', keepOnTop);
+
+  if (process.platform === 'darwin') {
+    win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+  } else if (process.platform === 'linux') {
+    win.setVisibleOnAllWorkspaces(true);
+  }
 
   if (process.platform === 'win32' || process.platform === 'darwin') {
     win.setContentProtection(true);
@@ -133,6 +152,7 @@ app.whenReady().then(() => {
       nodeIntegration: false
     }
   });
+  ui.setBackgroundColor('#00000000');
   page = new WebContentsView({
     webPreferences: {
       session: priv,
@@ -201,6 +221,7 @@ app.whenReady().then(() => {
   onToolbar('forward', () => nav.canGoForward() && nav.goForward());
   onToolbar('reload', () => page.webContents.reload());
   onToolbar('home', () => loadPage(HOME));
+  onToolbar('close', () => win.close());
 
   ui.webContents.loadFile(path.join(__dirname, 'index.html'));
   loadPage(HOME);

@@ -1,6 +1,6 @@
 const addr = document.getElementById('addr');
 
-for (const command of ['back', 'forward', 'reload', 'home']) {
+for (const command of ['back', 'forward', 'reload', 'home', 'close']) {
   document.getElementById(command).addEventListener('click', () => browser[command]());
 }
 
