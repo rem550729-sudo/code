@@ -1,4 +1,4 @@
-const { app, BaseWindow, WebContentsView, ipcMain, session } = require('electron');
+const { app, BaseWindow, WebContentsView, dialog, ipcMain, session } = require('electron');
 const { once } = require('node:events');
 const path = require('path');
 
@@ -29,8 +29,40 @@ function loadPage(url) {
 app.whenReady().then(() => {
   // No "persist:" prefix: browsing data lives only in memory.
   const priv = session.fromPartition('lite-private');
-  priv.setPermissionCheckHandler(() => false);
-  priv.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
+  const microphoneOrigins = new Set();
+  priv.setPermissionCheckHandler((_contents, permission, origin, details) => {
+    return permission === 'media' && details.mediaType === 'audio' &&
+      microphoneOrigins.has(details.securityOrigin || origin);
+  });
+  priv.setPermissionRequestHandler((_contents, permission, callback, details) => {
+    const mediaTypes = details.mediaTypes || [];
+    if (permission !== 'media' || mediaTypes.length === 0 ||
+        !mediaTypes.every((type) => type === 'audio')) {
+      callback(false);
+      return;
+    }
+
+    const origin = details.securityOrigin || new URL(details.requestingUrl).origin;
+    if (microphoneOrigins.has(origin)) {
+      callback(true);
+      return;
+    }
+
+    dialog.showMessageBox(win, {
+      type: 'question',
+      title: 'Microphone permission',
+      message: 'Allow microphone access?',
+      detail: `${origin} wants to use your microphone.`,
+      buttons: ['Allow', 'Deny'],
+      defaultId: 1,
+      cancelId: 1,
+      noLink: true
+    }).then(({ response }) => {
+      const allowed = response === 0;
+      if (allowed) microphoneOrigins.add(origin);
+      callback(allowed);
+    }).catch(() => callback(false));
+  });
 
   win = new BaseWindow({
     title: 'Lite Browser',

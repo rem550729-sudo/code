@@ -20,11 +20,28 @@ Press **Enter** to navigate. Links that request a new window open in the same vi
 
 - Cookies, site storage, browsing history, and cache use an in-memory session and
   are discarded when the application exits.
-- Website permission requests, including camera, microphone, location, and
-  notifications, are denied.
+- Audio-only microphone requests require approval in an Allow/Deny dialog.
+- Camera, location, notifications, and other website permission requests are denied.
 - Web pages run with sandboxing and context isolation enabled, without Node.js
   integration. Browser navigation is restricted to HTTP and HTTPS.
 - The app has no telemetry, analytics, or history logging.
+
+## Microphone access
+
+Websites can request the microphone with
+`navigator.mediaDevices.getUserMedia({ audio: true })` on HTTPS or localhost pages.
+The dialog identifies the requesting site. Choose **Allow** to enable audio
+capture, or **Deny** to reject the request. Approval applies to that site for the
+current application run and is discarded when the app exits.
+
+Requests that include video, including combined audio/video requests, are denied.
+
+The operating system must also allow microphone access:
+
+- **Windows:** Open Settings → Privacy & security → Microphone. Enable
+  **Microphone access** and **Let desktop apps access your microphone**.
+- **macOS:** Open System Settings → Privacy & Security → Microphone. Enable the
+  app listed there, which is normally **Electron** when using `npm start`.
 
 ## Window size and cursor
 
