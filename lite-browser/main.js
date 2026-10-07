@@ -86,6 +86,20 @@ app.whenReady().then(() => {
     if (!/^https?:\/\//i.test(url)) event.preventDefault();
   });
 
+  page.webContents.on('did-finish-load', () => {
+    page.webContents.insertCSS(`
+      input,
+      textarea,
+      [contenteditable="true"] {
+        cursor: default !important;
+      }
+    `, { cssOrigin: 'user' }).catch((error) => {
+      if (!page.webContents.isDestroyed()) {
+        console.error('Unable to apply text-field cursor:', error.message);
+      }
+    });
+  });
+
   const sendUrl = () => {
     if (!ui.webContents.isDestroyed()) {
       ui.webContents.send('url', page.webContents.getURL());

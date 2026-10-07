@@ -35,6 +35,10 @@ The toolbar, navigation buttons, and address field use the standard arrow cursor
 through scoped CSS. Button hover and keyboard focus styles identify interactive
 controls.
 
+On each page load, a user-origin stylesheet sets `cursor: default` for `input`,
+`textarea`, and `[contenteditable="true"]`. The rule uses `!important` to take
+priority over website cursor styles. Text fields keep their visible typing caret.
+
 ## Taskbar behavior
 
 The browser window uses Electron's `skipTaskbar: true` option to request omission
