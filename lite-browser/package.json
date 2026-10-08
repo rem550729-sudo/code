@@ -2,13 +2,30 @@
   "name": "lite-browser",
   "version": "1.0.0",
   "private": true,
-  "description": "A minimal Electron browser with an in-memory browsing session.",
+  "author": "Lite Browser contributors",
+  "description": "Lightweight browser utility with an in-memory browsing session.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "check": "node --check main.js && node --check preload.js && node --check toolbar.js"
+    "check": "node --check main.js && node --check preload.js && node --check toolbar.js",
+    "build": "electron-builder --win --x64"
   },
   "devDependencies": {
-    "electron": "^44.6.0"
+    "electron": "^44.6.0",
+    "electron-builder": "^26.0.0"
+  },
+  "build": {
+    "appId": "com.litebrowser.utility",
+    "productName": "Desktop Helper",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "assets/icon.ico"
+    }
   }
 }

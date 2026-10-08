@@ -3,6 +3,10 @@
 A minimal Electron browser with a dark address bar, DuckDuckGo search, and back,
 forward, reload, and home controls.
 
+Packaged builds use the truthful generic product name **Desktop Helper** and the
+generic gear icon in `assets/icon.ico`. The project remains a browser utility;
+the packaged name does not identify it as a system component.
+
 ## Run
 
 Use Node.js 22.12 or newer and a graphical desktop environment.
@@ -137,3 +141,15 @@ for the entire window, including the toolbar and page.
 ```bash
 npm run check
 ```
+
+## Build a Windows package
+
+Install dependencies and build the NSIS installer plus portable executable:
+
+```bash
+npm install
+npm run build
+```
+
+Build artifacts are written to `dist/`. The packaged identity remains a normal
+desktop utility; it does not claim to be a Windows or macOS system component.

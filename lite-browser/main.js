@@ -133,7 +133,7 @@ app.whenReady().then(() => {
   });
 
   win = new BaseWindow({
-    title: 'Lite Browser',
+    title: 'Desktop Helper',
     width: 1100,
     height: 750,
     minWidth: 320,
